@@ -31,7 +31,7 @@ class FacePipeline:
         for i, box in enumerate(boxes):
             lm = landmarks[i]
             aligned = self.aligner.align_face(pil, box, lm)
-            # optional: re-run detector on aligned to get better tight crop — omitted for speed
+            # 可選：重新運行偵測器以獲得更精確的裁切效果 — 為了提高速度，此處省略
             emb = self.embedder.embed(aligned)
             results.append({
                 'box': box,

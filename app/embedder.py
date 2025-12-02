@@ -14,13 +14,13 @@ class FaceEmbedder:
 
     def preprocess(self, face_pil):
         """
-        face_pil: PIL.Image cropped aligned face
-        return: normalized torch tensor batch (1,C,H,W)
-        InceptionResnetV1 expects 160x160 inputs.
+        face_pil：PIL.Image 裁剪對齊的人臉
+        回傳：歸一化的 torch 張量批次 (1,C,H,W)
+        InceptionResnetV1 需要 160x160 的輸入。
         """
         face = face_pil.convert('RGB').resize((160,160))
         arr = np.asarray(face).astype(np.float32)
-        # normalize: facenet-pytorch expects pixel values in [-1,1]
+        # 歸一化：facenet-pytorch 期望像素值在 [-1,1] 範圍內
         arr = (arr / 127.5) - 1.0
         # HWC -> CHW
         tensor = torch.tensor(arr).permute(2,0,1).unsqueeze(0).to(self.device)
