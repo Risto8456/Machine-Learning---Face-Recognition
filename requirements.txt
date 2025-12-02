@@ -1,0 +1,1 @@
+pip install facenet-pytorch torchvision torch pillow numpy opencv-python scikit-learn sqlalchemy
