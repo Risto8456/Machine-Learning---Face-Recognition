@@ -19,7 +19,7 @@ class FacePipeline:
         流程：
          1. 讀圖 PIL
          2. mtcnn.detect (boxes, probs, landmarks)
-         3. 對每張臉：aligner.align_face (rotate + crop)，然後（選項）在 rotated 圖上重新 run mtcnn 以取得更精確crop (若 re_detect_after_rotate True)
+         3. 對每張臉：aligner.align_face (旋轉+裁剪)，然後（選項）在 rotated 圖上重新 run mtcnn 以取得更精確 crop (若 re_detect_after_rotate True)
          4. embedder.embed
         """
         pil = Image.open(img_path).convert('RGB')
@@ -30,12 +30,22 @@ class FacePipeline:
 
         for i, box in enumerate(boxes):
             lm = landmarks[i]
-            aligned = self.aligner.align_face(pil, box, lm)
-            # 可選：重新運行偵測器以獲得更精確的裁切效果 — 為了提高速度，此處省略
+            prob = probs[i]
+            # 旋轉+裁剪
+            _, aligned = self.aligner.align_face(pil, box, lm)
+
+            if re_detect_after_rotate:
+                new_boxes, new_probs, new_landmarks = self.detector.detect(aligned)
+                if new_boxes is not None and len(new_boxes) > 0:
+                    # 取概率最大的一張
+                    max_idx = np.argmax(new_probs)
+                    new_box = new_boxes[max_idx]
+                    aligned = aligned.crop(new_box)
+
             emb = self.embedder.embed(aligned)
             results.append({
                 'box': box,
-                'prob': float(probs[i]) if probs is not None else None,
+                'prob': float(prob) if prob is not None else None,
                 'landmarks': lm,
                 'aligned': aligned,
                 'embedding': emb

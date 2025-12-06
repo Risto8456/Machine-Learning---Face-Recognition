@@ -33,13 +33,20 @@ def save_embedding(name, img_path, embedding):
     conn.close()
 
 def load_all_embeddings():
-    conn = sqlite3.connect(DB_PATH)
+    conn = sqlite3.connect("face_db.sqlite")
     c = conn.cursor()
-    c.execute('SELECT id, name, img_path, embedding FROM faces')
+    c.execute("SELECT name, embedding FROM faces")
     rows = c.fetchall()
-    res = []
-    for r in rows:
-        emb = np.frombuffer(r[3], dtype=np.float32)
-        res.append({'id': r[0], 'name': r[1], 'img_path': r[2], 'embedding': emb})
+    result = []
+    for name, emb_blob in rows:
+        embedding = np.frombuffer(emb_blob, dtype=np.float32)
+        # 自動拼出註冊圖路徑
+        img_path = os.path.join("images/register", name + ".jpg")  
+        result.append({
+            "name": name,
+            "embedding": embedding,
+            "img_path": img_path
+        })
     conn.close()
-    return res
+    return result
+
