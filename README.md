@@ -1,4 +1,5 @@
 # 架構
+```
 face-recognition/
 ├── images/
 │   ├── input       # 待辨識圖
@@ -16,6 +17,7 @@ face-recognition/
 ├── result              # 輸出結果
 ├── face_db.sqlite      # 臉部資料庫
 └── requirements.txt    # 套件需求
+```
 
 # 環境建置說明
 ### 1.建立一個 Python 3.9 的虛擬環境 (使用 conda)
@@ -41,6 +43,3 @@ pip install facenet-pytorch torchvision torch pillow numpy opencv-python scikit-
 5. 將 recognize_faces.py 中 INPUT_IMAGE 設定為要辨識的合照路徑
 6. 執行 recognize_faces.py 進行辨識
 7. 於 result 查看輸出結果，包括各人臉的截圖 & 前三名相似
-
-# 各程式詳細說明
-## 1. app/detector.py
