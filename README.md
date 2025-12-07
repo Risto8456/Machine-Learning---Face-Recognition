@@ -43,3 +43,8 @@ pip install facenet-pytorch torchvision torch pillow numpy opencv-python scikit-
 5. 將 recognize_faces.py 中 INPUT_IMAGE 設定為要辨識的合照路徑
 6. 執行 recognize_faces.py 進行辨識
 7. 於 result 查看輸出結果，包括各人臉的截圖 & 前三名相似
+
+# 測試
+資料庫 6 張臉
+1. 大合照：68 張臉 => 1 分多鐘
+2. 小合照：3 張臉 => 10 秒
