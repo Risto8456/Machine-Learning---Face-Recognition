@@ -1,6 +1,8 @@
-# 建立一個 Python 3.9 的虛擬環境 (使用 conda)
-conda create -n face_env python=3.9
-conda activate face_myenv
-
-# 一次性安裝所有套件
-pip install facenet-pytorch torchvision torch pillow numpy opencv-python scikit-learn sqlalchemy
+facenet-pytorch
+torchvision
+torch
+pillow
+numpy
+opencv-python
+scikit-learn
+sqlalchemy
